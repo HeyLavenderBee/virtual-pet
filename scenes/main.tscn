@@ -1,0 +1,126 @@
+[gd_scene load_steps=6 format=3 uid="uid://nm6q5bn6xeqg"]
+
+[ext_resource type="Script" uid="uid://da0oikxbqpufr" path="res://scenes/main.gd" id="1_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://d0kdfrqmd57m7" path="res://scenes/pet.tscn" id="2_sugp2"]
+[ext_resource type="Texture2D" uid="uid://cpn253jrvi4hc" path="res://art/terrinha2.png" id="3_sugp2"]
+[ext_resource type="Texture2D" uid="uid://bhgyaviktnv43" path="res://art/notebook.png" id="4_jyhfs"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jyhfs"]
+radius = 27.0185
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_0wfyh")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 273.0
+offset_top = 10.0
+offset_right = 294.0
+offset_bottom = 35.0
+theme_override_font_sizes/font_size = 12
+text = " x "
+
+[node name="pet" parent="." instance=ExtResource("2_sugp2")]
+position = Vector2(199, 190)
+scale = Vector2(0.80718, 0.80718)
+
+[node name="food_button" type="Button" parent="."]
+offset_left = 208.0
+offset_top = 10.0
+offset_right = 264.0
+offset_bottom = 35.0
+theme_override_font_sizes/font_size = 12
+text = "get food"
+
+[node name="load_button" type="Button" parent="."]
+offset_left = 145.0
+offset_top = 10.0
+offset_right = 201.0
+offset_bottom = 35.0
+theme_override_font_sizes/font_size = 12
+text = "load"
+
+[node name="todo_button" type="Button" parent="."]
+offset_left = 10.0
+offset_top = 42.0
+offset_right = 70.0
+offset_bottom = 67.0
+theme_override_font_sizes/font_size = 12
+text = "add todo"
+
+[node name="move_area" type="Area2D" parent="."]
+position = Vector2(202, 160)
+
+[node name="move" type="Sprite2D" parent="move_area"]
+visible = false
+position = Vector2(2, -4)
+scale = Vector2(1.46875, 1.46875)
+texture = ExtResource("3_sugp2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move_area"]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_jyhfs")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="todo" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 112.0
+offset_right = 45.0
+offset_bottom = 152.0
+
+[node name="Notebook" type="Sprite2D" parent="todo"]
+position = Vector2(59, 70)
+scale = Vector2(2, 2)
+texture = ExtResource("4_jyhfs")
+
+[node name="Label" type="Label" parent="todo"]
+visible = false
+layout_mode = 0
+offset_left = 34.0
+offset_top = 26.0
+offset_right = 77.0
+offset_bottom = 49.0
+text = "study"
+
+[node name="Label2" type="Label" parent="todo"]
+visible = false
+layout_mode = 0
+offset_left = 34.0
+offset_top = 51.0
+offset_right = 77.0
+offset_bottom = 74.0
+text = "study"
+
+[node name="ColorRect" type="ColorRect" parent="todo"]
+visible = false
+layout_mode = 0
+offset_left = 12.0
+offset_top = 31.0
+offset_right = 29.0
+offset_bottom = 48.0
+
+[node name="ColorRect2" type="ColorRect" parent="todo"]
+visible = false
+layout_mode = 0
+offset_left = 12.0
+offset_top = 56.0
+offset_right = 29.0
+offset_bottom = 73.0
+
+[node name="todo_text" type="TextEdit" parent="."]
+offset_left = 10.0
+offset_top = 11.0
+offset_right = 120.0
+offset_bottom = 36.0
+theme_override_font_sizes/font_size = 9
+placeholder_text = "digit your todo here"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="food_button" to="." method="_on_food_button_pressed"]
+[connection signal="pressed" from="load_button" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="todo_button" to="." method="_on_todo_button_pressed"]
+[connection signal="mouse_entered" from="move_area" to="." method="_on_move_area_mouse_entered"]
+[connection signal="mouse_exited" from="move_area" to="." method="_on_move_area_mouse_exited"]
+[connection signal="text_changed" from="todo_text" to="." method="_on_todo_text_text_changed"]
