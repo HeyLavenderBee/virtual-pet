@@ -10,6 +10,7 @@ radius = 27.0185
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_0wfyh")
+start_pos = Vector2(42, 140)
 
 [node name="Button" type="Button" parent="."]
 offset_left = 273.0
@@ -38,6 +39,14 @@ offset_right = 201.0
 offset_bottom = 35.0
 theme_override_font_sizes/font_size = 12
 text = "load"
+
+[node name="delete_button" type="Button" parent="."]
+offset_left = 175.0
+offset_top = 41.0
+offset_right = 231.0
+offset_bottom = 66.0
+theme_override_font_sizes/font_size = 12
+text = "delete"
 
 [node name="todo_button" type="Button" parent="."]
 offset_left = 10.0
@@ -120,6 +129,7 @@ placeholder_text = "digit your todo here"
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="food_button" to="." method="_on_food_button_pressed"]
 [connection signal="pressed" from="load_button" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="delete_button" to="." method="_on_delete_button_pressed"]
 [connection signal="pressed" from="todo_button" to="." method="_on_todo_button_pressed"]
 [connection signal="mouse_entered" from="move_area" to="." method="_on_move_area_mouse_entered"]
 [connection signal="mouse_exited" from="move_area" to="." method="_on_move_area_mouse_exited"]

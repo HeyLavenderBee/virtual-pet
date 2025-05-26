@@ -1,15 +1,13 @@
 extends Node
 
+
 #https://www.youtube.com/watch?v=xG2GGniUa5o
 var save_path = "user://save_godot.json"
 var save_content: Dictionary = {
 	"n": 0,
-	"new_data": false,
-}
-
-var todo_list: Dictionary = {
-	0: "heyy",
-	1: "gay",
+	"m": [1,2,3],
+	"todo_list": {
+	}
 }
 
 func _ready() -> void:
@@ -17,38 +15,31 @@ func _ready() -> void:
 
 func save():
 	var file = FileAccess.open(save_path, FileAccess.WRITE)
-	file.store_var(save_content.duplicate())
-	for i in todo_list:
-		file.store_line(str(todo_list.keys()[i],":",todo_list.values()[i],"\r").replace(" ", ""))
+	file.store_var(save_content)
+	#for i in todo_list:
+		#file.store_line(str(todo_list.keys()[i],":",todo_list.values()[i],"\r").replace(" ", ""))
 	file.close()
 
 func load_save():
 	if FileAccess.file_exists(save_path):
-		print("save exists")
+		#print("save exists")
 		var file = FileAccess.open(save_path, FileAccess.READ)
-		#var data = file.get_var()
-		var content = {}
-		print(file.get_as_text().count(":"))
-		for i in file.get_as_text().count(":"):
-			
-			var line = file.get_line()
-			var key = line.split(":")[0]
-			var value = line.split(":")[1]
-			if value.is_valid_integer():
-				value = int(value)
-			elif value.is_valid_float():
-				value = float(value)
-			#elif value.begins_with("["):
-				#value = value.trim_prefix("[")
-				#value = value.trim_suffix("]")
-				#value = value.split(",")
-			content[key] = value
-		
+		var data = file.get_var()
 		file.close()
-		return content
-		print(content)
-		#print(data)
-		#var save_data = data.duplicate()
+		var save_data = data.duplicate()
+		#print("save: ",save_data)
 		#save_content.n = save_data.n
+		save_content.todo_list = save_data.todo_list
+		for i in save_data:
+			pass
+			#print("aaaa")
+			#print(save_data)
+		#todo_list[0] = save_data.n
+		#print(todo_list)
 		#todo_list[0] = save_data.todo_list[0]
-		
+
+func delete_save():
+	if FileAccess.file_exists(save_path):
+		save_content.todo_list = {}
+		print(save_content.todo_list)
+		save()

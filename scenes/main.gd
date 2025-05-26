@@ -1,13 +1,11 @@
 extends Node2D
 
 var n = 0
-var start_pos := Vector2(42,110)
+@export var start_pos := Vector2(42,110)
 var dict_index: int
 var todo_pos : Array = [Vector2(42,150), Vector2(42,170), Vector2(42,175), Vector2(42, 190)]
 
-var todo_list: Dictionary = {
-	
-}
+var todo_list: Dictionary
 
 var mouse_in := false
 var mouse_click := false
@@ -74,21 +72,36 @@ func _on_move_area_mouse_exited() -> void:
 	mouse_in = false
 
 func _on_load_button_pressed() -> void:
+	load_todo()
+
+func load_todo():
 	SaveLoad.load_save()
-	n = SaveLoad.save_content.n
-	todo_list = SaveLoad.todo_list
-	print(todo_list)
+	todo_list = SaveLoad.save_content.todo_list
+	print(SaveLoad.save_content.todo_list)
+	for i in todo_list:
+		var todo_rect = ColorRect.new()
+		var todo_label = Label.new()
+		todo_label.position = start_pos
+		todo_rect.position = start_pos - Vector2(20,-5)
+		todo_rect.size = Vector2(15,15)
+		todo_label.text = todo_list[i]
+		add_child(todo_label)
+		add_child(todo_rect)
+		start_pos += Vector2(0,30)
+		#print(todo_label.position)
 
 func _on_todo_button_pressed() -> void:
 	add_todo()
 
 func add_todo():
-	for i in SaveLoad.todo_list:
+	var next_dict_index
+	for i in SaveLoad.save_content.todo_list:
 		dict_index = i + 1
 		start_pos += Vector2(0,30)
-		print(start_pos)
-	SaveLoad.todo_list[dict_index] = $todo_text.text
-	print(SaveLoad.todo_list)
+		print(i)
+	SaveLoad.save_content.todo_list[dict_index] = $todo_text.text
+	#print(SaveLoad.todo_list)
+	
 	var todo_rect = ColorRect.new()
 	var todo_label = Label.new()
 	#todo_label.position = todo_pos[dict_index] 
@@ -99,10 +112,15 @@ func add_todo():
 	todo_label.text = $todo_text.text
 	add_child(todo_label)
 	add_child(todo_rect)
-	print(todo_label.position)
+	#print(todo_label.position)
+	
 	SaveLoad.save()
 
 func _on_todo_text_text_changed() -> void:
 	if Input.is_action_just_pressed("enter"):
 		_on_todo_button_pressed()
 		$todo_text.clear()
+
+
+func _on_delete_button_pressed() -> void:
+	SaveLoad.delete_save()
