@@ -4,9 +4,10 @@ extends Node
 #https://www.youtube.com/watch?v=xG2GGniUa5o
 var save_path = "user://save_godot.json"
 var save_content: Dictionary = {
-	"n": 0,
-	"m": [1,2,3],
 	"todo_list": {
+	},
+	"sessions": {
+		
 	}
 }
 
@@ -30,6 +31,8 @@ func load_save():
 		#print("save: ",save_data)
 		#save_content.n = save_data.n
 		save_content.todo_list = save_data.todo_list
+		if save_data.sessions:
+			save_content.sessions = save_data.sessions
 		for i in save_data:
 			pass
 			#print("aaaa")
@@ -41,5 +44,6 @@ func load_save():
 func delete_save():
 	if FileAccess.file_exists(save_path):
 		save_content.todo_list = {}
+		save_content.sessions = {}
 		print(save_content.todo_list)
 		save()

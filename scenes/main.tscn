@@ -1,16 +1,32 @@
-[gd_scene load_steps=6 format=3 uid="uid://nm6q5bn6xeqg"]
+[gd_scene load_steps=9 format=3 uid="uid://nm6q5bn6xeqg"]
 
 [ext_resource type="Script" uid="uid://da0oikxbqpufr" path="res://scenes/main.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://d0kdfrqmd57m7" path="res://scenes/pet.tscn" id="2_sugp2"]
 [ext_resource type="Texture2D" uid="uid://cpn253jrvi4hc" path="res://art/terrinha2.png" id="3_sugp2"]
 [ext_resource type="Texture2D" uid="uid://bhgyaviktnv43" path="res://art/notebook.png" id="4_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://do7ysbvxn64lb" path="res://art/book.png" id="5_tbgi4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jyhfs"]
+bg_color = Color(0.270588, 0.45098, 0.596078, 0.364706)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jyhfs"]
-radius = 27.0185
+radius = 43.1045
+
+[sub_resource type="LabelSettings" id="LabelSettings_jyhfs"]
+font_size = 21
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_0wfyh")
 start_pos = Vector2(42, 140)
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = -1.0
+offset_top = 227.0
+offset_right = 301.0
+offset_bottom = 302.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jyhfs")
 
 [node name="Button" type="Button" parent="."]
 offset_left = 273.0
@@ -21,7 +37,7 @@ theme_override_font_sizes/font_size = 12
 text = " x "
 
 [node name="pet" parent="." instance=ExtResource("2_sugp2")]
-position = Vector2(199, 190)
+position = Vector2(212, 213)
 scale = Vector2(0.80718, 0.80718)
 
 [node name="food_button" type="Button" parent="."]
@@ -57,7 +73,7 @@ theme_override_font_sizes/font_size = 12
 text = "add todo"
 
 [node name="move_area" type="Area2D" parent="."]
-position = Vector2(202, 160)
+position = Vector2(215, 183)
 
 [node name="move" type="Sprite2D" parent="move_area"]
 visible = false
@@ -66,7 +82,7 @@ scale = Vector2(1.46875, 1.46875)
 texture = ExtResource("3_sugp2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move_area"]
-position = Vector2(0, 1)
+position = Vector2(0, 16)
 shape = SubResource("CircleShape2D_jyhfs")
 
 [node name="Timer" type="Timer" parent="."]
@@ -74,10 +90,10 @@ shape = SubResource("CircleShape2D_jyhfs")
 [node name="todo" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 5.0
-offset_top = 112.0
-offset_right = 45.0
-offset_bottom = 152.0
+offset_left = 12.0
+offset_top = 117.0
+offset_right = 52.0
+offset_bottom = 157.0
 
 [node name="Notebook" type="Sprite2D" parent="todo"]
 position = Vector2(59, 70)
@@ -126,6 +142,39 @@ offset_bottom = 36.0
 theme_override_font_sizes/font_size = 9
 placeholder_text = "digit your todo here"
 
+[node name="timer_text" type="TextEdit" parent="."]
+offset_left = 156.0
+offset_top = 120.0
+offset_right = 266.0
+offset_bottom = 145.0
+theme_override_font_sizes/font_size = 9
+placeholder_text = "session time"
+emoji_menu_enabled = false
+
+[node name="session_timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="start_timer_button" type="Button" parent="."]
+offset_left = 156.0
+offset_top = 81.0
+offset_right = 247.0
+offset_bottom = 112.0
+text = "start timer"
+
+[node name="timer_label" type="Label" parent="."]
+offset_left = 261.0
+offset_top = 51.0
+offset_right = 301.0
+offset_bottom = 81.0
+text = "5s"
+label_settings = SubResource("LabelSettings_jyhfs")
+
+[node name="Book" type="Sprite2D" parent="."]
+position = Vector2(150, 263)
+scale = Vector2(4, 4)
+texture = ExtResource("5_tbgi4")
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="food_button" to="." method="_on_food_button_pressed"]
 [connection signal="pressed" from="load_button" to="." method="_on_load_button_pressed"]
@@ -134,3 +183,6 @@ placeholder_text = "digit your todo here"
 [connection signal="mouse_entered" from="move_area" to="." method="_on_move_area_mouse_entered"]
 [connection signal="mouse_exited" from="move_area" to="." method="_on_move_area_mouse_exited"]
 [connection signal="text_changed" from="todo_text" to="." method="_on_todo_text_text_changed"]
+[connection signal="text_changed" from="timer_text" to="." method="_on_timer_text_text_changed"]
+[connection signal="timeout" from="session_timer" to="." method="_on_session_timer_timeout"]
+[connection signal="pressed" from="start_timer_button" to="." method="_on_start_timer_button_pressed"]
